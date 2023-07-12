@@ -10,24 +10,33 @@ const io = new Server(server, {
   }
 })
 
-let onlineUsers: string[] = []
+type UserType = {
+  email: string
+  name: string
+  socketId: string
+}
+
+let onlineUsers: UserType[] = []
 
 io.on('connection', (socket) => {
-  console.log(`connected ${socket.id}`)
-  onlineUsers.push(socket.id)
+  socket.on('entered-app', (newUser: UserType) => {
+    const isExist = onlineUsers.some((u) => u.email === newUser.email)
 
-  io.emit('online', onlineUsers)
-
-  socket.on('send-message', (message: string) => {
-    io.emit('recieve-message', message)
+    if (isExist) {
+      io.emit('online-users', onlineUsers)
+      return
+    } else {
+      onlineUsers.push(newUser)
+      io.emit('online-users', onlineUsers)
+    }
   })
 
   socket.on('disconnect', () => {
-    onlineUsers = onlineUsers.filter((u) => u !== socket.id)
-    io.emit('online', onlineUsers)
+    onlineUsers = onlineUsers.filter((u) => u.socketId !== socket.id)
+    io.emit('online-users', onlineUsers)
   })
 })
 
-server.listen(3001, () => {
-  console.log('server listening on 3001')
+server.listen(3002, () => {
+  console.log('server listening on 3002')
 })
