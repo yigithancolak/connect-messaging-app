@@ -11,6 +11,7 @@ export function ChatInput() {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!message || !message.trim()) return
     socket?.emit('send-message', { name: session?.user?.name, text: message })
     console.log(message)
 

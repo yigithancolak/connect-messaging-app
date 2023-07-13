@@ -1,5 +1,6 @@
 import { useGlobalContext } from '@/lib/context/GlobalContext'
 import { vt323 } from '@/public/fonts/fonts'
+import { motion } from 'framer-motion'
 import { useEffect, useRef } from 'react'
 
 export function Messages() {
@@ -19,15 +20,20 @@ export function Messages() {
     >
       {allMessages?.map((message, index) => {
         return (
-          <div
+          <motion.div
+            //animations
+            initial={{ x: '-300%' }}
+            animate={{ x: 0 }}
+            transition={{ duration: 0.5 }}
+            //attributes
             key={index}
             className={`flex flex-col rounded-md ${
               message.name !== session?.user?.name && 'items-end'
             }  p-1 bg-white`}
           >
             <p className={`${vt323.className} text-primary`}>{message.name}</p>
-            <p>{message.text}</p>
-          </div>
+            <p className='whitespace-normal break-words'>{message.text}</p>
+          </motion.div>
         )
       })}
     </div>
