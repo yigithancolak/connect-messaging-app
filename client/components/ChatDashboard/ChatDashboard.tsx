@@ -5,7 +5,7 @@ import { Messages } from '../Messages/Messages'
 
 export function ChatDashboard() {
   return (
-    <div className='grid grid-cols-3 h-fit mt-4 w-[80%] shadow-custom'>
+    <div className='grid grid-cols-3 h-fit mt-8 w-[80%] shadow-custom'>
       {/* ONLINE USERS */}
       <aside className='col-span-1 overflow-y-auto'>
         <ActiveUsers />

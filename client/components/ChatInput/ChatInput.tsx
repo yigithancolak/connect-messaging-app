@@ -6,7 +6,7 @@ import { IoSendSharp } from 'react-icons/io5'
 
 export function ChatInput() {
   const { data: session, status } = useSession()
-  const { socket, users } = useGlobalContext()
+  const { socket } = useGlobalContext()
   const [message, setMessage] = useState('')
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -25,7 +25,7 @@ export function ChatInput() {
       <input
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        className='border rounded p-3 w-full resize-y'
+        className='border rounded p-3 w-full resize-y shadow-md'
         disabled={status !== 'authenticated'}
       />
 
