@@ -1,5 +1,5 @@
-import Messages from '@/components/Messages'
-import Nav from '@/components/Nav/Nav'
+import { ChatDashboard } from '@/components/ChatDashboard/ChatDashboard'
+import { Header } from '@/components/Header/Header'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]/route'
 
@@ -8,10 +8,10 @@ export default async function Home() {
 
   return (
     <>
-      <Nav />
+      <Header />
 
-      <main className='flex min-h-screen flex-col items-center justify-between'>
-        <Messages session={session} />
+      <main className='flex justify-center h-[90vh]'>
+        <ChatDashboard />
       </main>
     </>
   )

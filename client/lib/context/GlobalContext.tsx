@@ -1,7 +1,7 @@
 'use client'
 
-import { MessageDetails } from '@/components/Messages'
 import { socket } from '@/lib/socket/socket'
+import { Session } from 'next-auth'
 import { useSession } from 'next-auth/react'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Socket } from 'socket.io-client'
@@ -35,16 +35,22 @@ const GlobalContext = createContext<{
   users: UserType[]
   allMessages: MessageDetails[]
   socket: Socket | null
+  session: Session | null
 }>({
   users: [],
   allMessages: [],
-  socket: null
+  socket: null,
+  session: null
 })
 
 type UserType = {
   email: string
   name: string
   socketId: string
+}
+type MessageDetails = {
+  name: string
+  text: string
 }
 
 export const GlobalContextProvider = ({
@@ -85,7 +91,7 @@ export const GlobalContextProvider = ({
   //   }
 
   return (
-    <GlobalContext.Provider value={{ socket, allMessages, users }}>
+    <GlobalContext.Provider value={{ socket, allMessages, users, session }}>
       {children}
     </GlobalContext.Provider>
   )
