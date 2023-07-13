@@ -1,5 +1,6 @@
 'use client'
 
+import { MessageDetails } from '@/components/Messages'
 import { socket } from '@/lib/socket/socket'
 import { useSession } from 'next-auth/react'
 import React, { createContext, useContext, useEffect, useState } from 'react'
@@ -32,7 +33,7 @@ import { Socket } from 'socket.io-client'
 
 const GlobalContext = createContext<{
   users: UserType[]
-  allMessages: string[]
+  allMessages: MessageDetails[]
   socket: Socket | null
 }>({
   users: [],
@@ -52,9 +53,8 @@ export const GlobalContextProvider = ({
   children: React.ReactNode
 }) => {
   //   const [state, dispatch] = useReducer(reducer, initialState);
-  const [isConnected, setIsConnected] = useState(socket.connected)
   const [users, setUsers] = useState<UserType[]>([])
-  const [allMessages, setAllMessages] = useState<string[]>([])
+  const [allMessages, setAllMessages] = useState<MessageDetails[]>([])
   const { data: session, status } = useSession()
 
   useEffect(() => {
@@ -63,8 +63,13 @@ export const GlobalContextProvider = ({
     socket.on('online-users', (users: UserType[]) => {
       setUsers(users)
     })
+    socket.on('recieve-message', (messageDetails) =>
+      setAllMessages((prev) => [...prev, messageDetails])
+    )
 
     return () => {
+      socket.off('online-users')
+      socket.off('entered-app')
       socket.disconnect()
     }
   }, [status])
@@ -78,8 +83,6 @@ export const GlobalContextProvider = ({
   //       setUsers(onlineUsers)
   //     })
   //   }
-
-  console.log(users)
 
   return (
     <GlobalContext.Provider value={{ socket, allMessages, users }}>

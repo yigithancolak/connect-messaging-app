@@ -20,15 +20,17 @@ let onlineUsers: UserType[] = []
 
 io.on('connection', (socket) => {
   socket.on('entered-app', (newUser: UserType) => {
+    //showing online users by checking are they already exist
     const isExist = onlineUsers.some((u) => u.email === newUser.email)
 
-    if (isExist) {
-      io.emit('online-users', onlineUsers)
-      return
-    } else {
+    if (!isExist) {
       onlineUsers.push(newUser)
-      io.emit('online-users', onlineUsers)
     }
+    io.emit('online-users', onlineUsers)
+  })
+
+  socket.on('send-message', (messageDetails) => {
+    io.emit('recieve-message', messageDetails)
   })
 
   socket.on('disconnect', () => {
