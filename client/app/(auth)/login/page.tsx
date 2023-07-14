@@ -1,32 +1,40 @@
 'use client'
 
 import { useGlobalContext } from '@/lib/context/GlobalContext'
+import { ClientRoutes } from '@/lib/utils/routes'
 import { vt323 } from '@/public/fonts/fonts'
 import { motion } from 'framer-motion'
 import { signIn, signOut } from 'next-auth/react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { FormEventHandler, useState } from 'react'
+
+enum TestUsers {
+  Test1 = 'test@test.com',
+  Test2 = 'test2@test2.com'
+}
 
 export default function LoginPage() {
   const [userInfo, setUserInfo] = useState({ email: '', password: '' })
   const [loading, setLoading] = useState(false)
-  const { session, status } = useGlobalContext()
+  const { status } = useGlobalContext()
+  const router = useRouter()
 
-  const handleTestSignIn = async () => {
+  const handleTestSignIn = async (email: TestUsers) => {
     setLoading(true)
     try {
       const res = await signIn('credentials', {
-        email: 'test@test.com',
+        email,
         password: 'test',
-        callbackUrl: '/',
-        redirect: true
+        redirect: true,
+        callbackUrl: ClientRoutes.Home
       })
       if (res?.ok) {
+        router.replace(ClientRoutes.Home)
         setLoading(false)
       }
     } catch (error) {
       setLoading(false)
-      throw error
     }
   }
 
@@ -40,15 +48,20 @@ export default function LoginPage() {
       const res = await signIn('credentials', {
         email: userInfo.email,
         password: userInfo.password,
-        callbackUrl: '/',
-        redirect: true
+        redirect: true,
+        callbackUrl: ClientRoutes.Home
       })
+
+      if (res?.error) {
+        console.log(res.error)
+        setLoading(false)
+      }
+
       if (res?.ok) {
         setLoading(false)
       }
     } catch (error) {
       setLoading(false)
-      throw error
     }
   }
 
@@ -118,9 +131,17 @@ export default function LoginPage() {
           disabled={loading}
           type='button'
           className='btn-primary'
-          onClick={() => handleTestSignIn()}
+          onClick={() => handleTestSignIn(TestUsers.Test1)}
         >
-          Test User
+          Test User 1
+        </button>
+        <button
+          disabled={loading}
+          type='button'
+          className='btn-primary'
+          onClick={() => handleTestSignIn(TestUsers.Test2)}
+        >
+          Test User 2
         </button>
         <motion.p
           initial={{ opacity: 0 }}
@@ -129,7 +150,7 @@ export default function LoginPage() {
           className='text-sm'
         >
           Not have an account ?{' '}
-          <Link className='underline text-primary' href='/register'>
+          <Link className='underline text-primary' href={ClientRoutes.Register}>
             Sign Up
           </Link>
         </motion.p>

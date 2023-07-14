@@ -21,6 +21,10 @@ let userSocketIds: { [email: string]: string } = {}
 
 io.on('connection', (socket) => {
   socket.on('entered-app', (newUser: UserType) => {
+    if (!newUser || !newUser.email) {
+      return
+    }
+
     const isExist = onlineUsers.some((u) => u.email === newUser.email)
 
     if (!isExist) {

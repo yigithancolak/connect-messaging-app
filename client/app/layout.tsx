@@ -1,5 +1,5 @@
 import { GlobalContextProvider } from '@/lib/context/GlobalContext'
-import { AppProvider } from '@/lib/providers/AppProviders'
+import { UserSessionProvider } from '@/lib/providers/AppProviders'
 import { roboto } from '@/public/fonts/fonts'
 import type { Metadata } from 'next'
 import './globals.css'
@@ -17,9 +17,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${roboto.className} h-screen`}>
-        <AppProvider>
+        <UserSessionProvider>
           <GlobalContextProvider>{children}</GlobalContextProvider>
-        </AppProvider>
+        </UserSessionProvider>
       </body>
     </html>
   )

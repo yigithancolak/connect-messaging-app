@@ -58,16 +58,6 @@ export const GlobalContextProvider = ({
     }
   }, [status])
 
-  //   function socketInitializer() {
-  //     socket.on('recieve-message', (message) => {
-  //       setAllMessages((pre) => [...pre, message])
-  //     })
-
-  //     socket.on('online', (onlineUsers: UserType[]) => {
-  //       setUsers(onlineUsers)
-  //     })
-  //   }
-
   return (
     <GlobalContext.Provider
       value={{ socket, allMessages, users, session, status }}
