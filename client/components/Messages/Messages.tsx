@@ -28,7 +28,7 @@ export function Messages() {
             //attributes
             key={index}
             className={`flex flex-col rounded-md ${
-              message.name !== session?.user?.name && 'items-end'
+              message.email !== session?.user?.email && 'items-end'
             }  p-1 bg-white`}
           >
             <p className={`${vt323.className} text-primary`}>{message.name}</p>

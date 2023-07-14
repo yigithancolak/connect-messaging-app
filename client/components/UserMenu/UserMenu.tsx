@@ -12,8 +12,8 @@ export default function UserMenu() {
   const { data: session } = useSession()
   return (
     <Sheet>
-      <SheetTrigger>
-        <BiUserCircle fontSize={40} className='text-white' />
+      <SheetTrigger className='hover:bg-muted hover:text-primary text-white rounded'>
+        <BiUserCircle fontSize={40} />
       </SheetTrigger>
       <SheetContent className='w-[70vw] md:w-[30vw] '>
         <SheetHeader>

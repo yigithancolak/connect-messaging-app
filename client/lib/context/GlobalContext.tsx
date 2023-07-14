@@ -51,6 +51,7 @@ type UserType = {
 type MessageDetails = {
   name: string
   text: string
+  email: string
 }
 
 export const GlobalContextProvider = ({
@@ -69,7 +70,7 @@ export const GlobalContextProvider = ({
     socket.on('online-users', (users: UserType[]) => {
       setUsers(users)
     })
-    socket.on('recieve-message', (messageDetails) =>
+    socket.on('recieve-message', (messageDetails: MessageDetails) =>
       setAllMessages((prev) => [...prev, messageDetails])
     )
 
