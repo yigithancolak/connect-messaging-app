@@ -6,41 +6,18 @@ import { useSession } from 'next-auth/react'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Socket } from 'socket.io-client'
 
-// type StateType = {
-//   count: number;
-// };
-
-// type ActionType = {
-//   type: string;
-// };
-
-// const initialState: StateType = {
-//   count: 0,
-// };
-
-// const reducer = (state: StateType, action: ActionType) => {
-//   switch (action.type) {
-//     case "INCREMENT":
-//       return { ...state, count: state.count + 1 };
-//     case "DECREMENT":
-//       return { ...state, count: state.count - 1 };
-//     case "RESET":
-//       return { ...state, count: 0 };
-//     default:
-//       return state;
-//   }
-// };
-
 const GlobalContext = createContext<{
   users: UserType[]
   allMessages: MessageDetails[]
   socket: Socket | null
   session: Session | null
+  status: 'loading' | 'authenticated' | 'unauthenticated'
 }>({
   users: [],
   allMessages: [],
   socket: null,
-  session: null
+  session: null,
+  status: 'loading'
 })
 
 type UserType = {
@@ -92,7 +69,9 @@ export const GlobalContextProvider = ({
   //   }
 
   return (
-    <GlobalContext.Provider value={{ socket, allMessages, users, session }}>
+    <GlobalContext.Provider
+      value={{ socket, allMessages, users, session, status }}
+    >
       {children}
     </GlobalContext.Provider>
   )

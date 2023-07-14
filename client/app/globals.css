@@ -76,3 +76,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .btn-primary {
+    @apply border-2 border-primary font-bold text-primary px-2 py-1 rounded hover:bg-primary hover:text-white outline-none disabled:bg-slate-500 disabled:opacity-60;
+  }
+
+  .input-primary {
+    @apply border border-black bg-white rounded px-2 py-1 outline-none focus-within:border-secondary shadow-md;
+  }
+}
